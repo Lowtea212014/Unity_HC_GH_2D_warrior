@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
 
-public class playerstat : MonoBehaviour
+public class playerstat : MonoBehaviour 
+
+
 {
+    #region 欄位
     [Header("speed")]
     [Range(0,1000)]
     public float speed = 10.5f;
@@ -27,9 +30,40 @@ public class playerstat : MonoBehaviour
     [Header("血量")]
     [Range(0, 200)]
     public int 血量 = 100;
-    AudioSource 音樂來源;
-    Rigidbody2D 剛體 ;
-    Animator 動畫控制器 ;
+    private AudioSource aud;
+    private Rigidbody2D rig ;
+    private Animator ani ;
+    #endregion
+    
+
+    public float h;
+    private void Start()
+    {
+        rig = GetComponent<Rigidbody2D>();
 
 
+    }
+    private void Update()
+    {
+        GetHorizontal();
+        Move();
+        Jump();
+    }
+    private void GetHorizontal()
+    {
+        h = Input.GetAxis("Horizontal");
+    }
+    private void Move()
+    {
+        //缸體.加速度=二維(水平*速度,0)
+        rig.velocity = new Vector2(h * speed, rig.velocity.y);
+    }
+    //跳躍
+    private void Jump()
+    {
+
+    }
 }
+
+
+

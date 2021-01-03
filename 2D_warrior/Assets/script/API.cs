@@ -28,7 +28,7 @@ public class APIStatic : MonoBehaviour
 
         // 時間.尺寸 = 2 倍速
         Time.timeScale = 2;
-        #endregion
+        #endregion;
 
         // 使用 靜態方法
         // 語法：

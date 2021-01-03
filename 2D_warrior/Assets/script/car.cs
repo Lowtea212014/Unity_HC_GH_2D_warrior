@@ -105,7 +105,7 @@ public class car : MonoBehaviour
         print("雨刷的速度：" + speed);
         print("雨刷的數量：" + count);
     }
-#endregion
+
 
 
 
