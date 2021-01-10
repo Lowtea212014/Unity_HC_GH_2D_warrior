@@ -33,21 +33,32 @@ public class playerstat : MonoBehaviour
     private AudioSource aud;
     private Rigidbody2D rig ;
     private Animator ani ;
+    [Header("地面判定位移")]
+    public Vector3 offset;
+    [Header("地面判定位移")]
+    public float radius = 0.3f;
     #endregion
     
 
     public float h;
     private void Start()
     {
+        //getcomponent
         rig = GetComponent<Rigidbody2D>();
-
-
+        ani = GetComponent<Animator>();
     }
     private void Update()
     {
         GetHorizontal();
         Move();
         Jump();
+    }
+    //在unity內繪製圖示
+    private void OnDrawGizmos()
+    {
+        
+        Gizmos.color = new Color(1, 0, 0, 0.35f);
+        Gizmos.DrawSphere(transform.position + offset,radius);
     }
     private void GetHorizontal()
     {
@@ -57,11 +68,37 @@ public class playerstat : MonoBehaviour
     {
         //缸體.加速度=二維(水平*速度,0)
         rig.velocity = new Vector2(h * speed, rig.velocity.y);
+        //如果 玩家 按下 D 就執行
+        if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            print("按下D");
+            transform.localEulerAngles = Vector3.zero;
+        }
+        if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            print("按下A");
+            transform.localEulerAngles = new Vector3(0, 180, 0);
+        }
+        ani.SetBool("跑步開關", h != 0);
     }
     //跳躍
     private void Jump()
     {
-
+        if (on_ground && Input.GetKeyDown(KeyCode.Space))
+        {
+            print("跳躍");
+            rig.AddForce(new Vector2(0, jumphight));
+            on_ground = false;
+        }
+            Collider2D hit=Physics2D.OverlapCircle(transform.position + offset,radius,1 << 8 );
+        if (hit)
+        {
+            on_ground = true;
+        }
+        else
+        {
+            on_ground = false;
+        }
     }
 }
 
