@@ -88,7 +88,7 @@ public class playerstat : MonoBehaviour
         {
             print("跳躍");
             rig.AddForce(new Vector2(0, jumphight));
-            on_ground = false;
+            ani.SetTrigger("跳躍觸發");
         }
             Collider2D hit=Physics2D.OverlapCircle(transform.position + offset,radius,1 << 8 );
         if (hit)
@@ -99,6 +99,9 @@ public class playerstat : MonoBehaviour
         {
             on_ground = false;
         }
+        //
+        ani.SetFloat("跳躍", rig.velocity.y);
+        ani.SetBool("是否在地面上",on_ground);
     }
 }
 
