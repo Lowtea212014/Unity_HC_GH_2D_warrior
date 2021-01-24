@@ -26,7 +26,7 @@ public class playerstat : MonoBehaviour
     public int bulletspeed = 800;
     [Header("開槍音效")]
     [Tooltip("開槍時的音效")]
-    public AudioClip 開槍音效 ;
+    public AudioClip firesouce ;
     [Header("血量")]
     [Range(0, 200)]
     public int 血量 = 100;
@@ -46,12 +46,14 @@ public class playerstat : MonoBehaviour
         //getcomponent
         rig = GetComponent<Rigidbody2D>();
         ani = GetComponent<Animator>();
+        aud = GetComponent <AudioSource >();
     }
     private void Update()
     {
         GetHorizontal();
         Move();
         Jump();
+        Fire();
     }
     //在unity內繪製圖示
     private void OnDrawGizmos()
@@ -103,6 +105,21 @@ public class playerstat : MonoBehaviour
         ani.SetFloat("跳躍", rig.velocity.y);
         ani.SetBool("是否在地面上",on_ground);
     }
+    ///開槍
+    private void Fire()
+    {
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            //音效來源.播放一次音效(音效片段,音量)
+            print("開槍");
+            aud.PlayOneShot(firesouce,Random.Range(1.2f,1.5f));
+            //生成(物件)
+            GameObject temp =Instantiate(bullet,bulletborn.position,bulletborn.rotation);
+            //站存子彈.取得原建<缸體>().添加推力(生成點應編*子彈速度+生成點上方*高度)
+            temp.GetComponent<Rigidbody2D>().AddForce(bulletborn.right * bulletspeed+bulletborn.up*150);
+        }
+    }
+    ///受傷
 }
 
 
