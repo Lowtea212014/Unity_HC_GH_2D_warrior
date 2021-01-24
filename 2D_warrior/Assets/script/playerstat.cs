@@ -55,13 +55,25 @@ public class playerstat : MonoBehaviour
         Jump();
         Fire();
     }
-    //在unity內繪製圖示
     private void OnDrawGizmos()
-    {
-        
+    {   
         Gizmos.color = new Color(1, 0, 0, 0.35f);
         Gizmos.DrawSphere(transform.position + offset,radius);
     }
+    //觸發事件
+    [Header("keysound")]
+    public AudioClip keysound;
+    ///<param name="collistion">碰到的物件資訊</param>>
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag=="Key")
+        {
+            Destroy(collision.gameObject);
+            aud.PlayOneShot(keysound, Random.Range(1.2f, 1.5f));
+        }
+    }
+    //在unity內繪製圖示
+
     private void GetHorizontal()
     {
         h = Input.GetAxis("Horizontal");
